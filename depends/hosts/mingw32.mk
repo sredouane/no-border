@@ -1,4 +1,4 @@
-mingw32_CFLAGS=-pipe
+mingw32_CFLAGS=-pipe -DBOOST_USE_WINDOWS_H
 mingw32_CXXFLAGS=$(mingw32_CFLAGS)
 
 mingw32_release_CFLAGS=-O2
