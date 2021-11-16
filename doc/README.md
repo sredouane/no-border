@@ -1,15 +1,15 @@
-Ravencoin Core
+Endborder Core
 ==============
 
 Setup
 ---------------------
-Ravencoin Core is the original Ravencoin client and it builds the backbone of the network. It downloads and, by default, stores the entire history of Ravencoin transactions; depending on the speed of your computer and network connection, the synchronization process is typically complete in under an hour.
+Endborder Core is the original Endborder client and it builds the backbone of the network. It downloads and, by default, stores the entire history of Endborder transactions; depending on the speed of your computer and network connection, the synchronization process is typically complete in under an hour.
 
-To download compiled binaries of the Ravencoin Core and wallet, visit the [GitHub release page](https://github.com/RavenProject/Ravencoin/releases).
+To download compiled binaries of the Endborder Core and wallet, visit the [GitHub release page](https://github.com/RavenProject/Endborder/releases).
 
 Running
 ---------------------
-The following are some helpful notes on how to run Ravencoin on your native platform.
+The following are some helpful notes on how to run Endborder on your native platform.
 
 ### Linux
 
@@ -17,7 +17,7 @@ The following are some helpful notes on how to run Ravencoin on your native plat
 
 2) Install distribution-specific dependencies listed below.
 
-3) Run the GUI wallet or only the Ravencoin core deamon
+3) Run the GUI wallet or only the Endborder core deamon
 
    a. GUI wallet:
    
