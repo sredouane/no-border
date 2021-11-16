@@ -122,11 +122,11 @@ AssetsDialog::AssetsDialog(const PlatformStyle *_platformStyle, QWidget *parent)
     ui->checkBoxMinimumFee->setChecked(settings.value("fPayOnlyMinFee").toBool());
     minimizeFeeSection(settings.value("fFeeSectionMinimized").toBool());
 
-    /** RVN START */
+    /** ENB START */
     setupAssetControlFrame(platformStyle);
     setupScrollView(platformStyle);
     setupFeeControl(platformStyle);
-    /** RVN END */
+    /** ENB END */
 }
 
 void AssetsDialog::setClientModel(ClientModel *_clientModel)
@@ -997,7 +997,7 @@ void AssetsDialog::assetControlUpdateLabels()
     }
 }
 
-/** RVN START */
+/** ENB START */
 void AssetsDialog::assetControlUpdateSendCoinsDialog()
 {
     for(int i = 0; i < ui->entries->count(); ++i)
@@ -1062,4 +1062,4 @@ void AssetsDialog::handleFirstSelection()
         entry->refreshAssetList();
     }
 }
-/** RVN END */
+/** ENB END */

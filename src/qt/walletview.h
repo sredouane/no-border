@@ -76,12 +76,12 @@ private:
     const PlatformStyle *platformStyle;
 
 
-    /** RVN START */
+    /** ENB START */
     AssetsDialog *assetsPage;
     CreateAssetDialog *createAssetsPage;
     ReissueAssetDialog *manageAssetsPage;
     RestrictedAssetsDialog *restrictedAssetsPage;
-    /** RVN END */
+    /** ENB END */
 
 public Q_SLOTS:
     /** Switch to overview (home) page */
@@ -127,7 +127,7 @@ public Q_SLOTS:
     void requestedSyncWarningInfo();
 
 
-    /** RVN START */
+    /** ENB START */
     /** Switch to assets page */
 
     void gotoAssetsPage();
@@ -135,7 +135,7 @@ public Q_SLOTS:
     void gotoManageAssetsPage();
     void gotoRestrictedAssetsPage();
 
-    /** RVN END */
+    /** ENB END */
 
 Q_SIGNALS:
     /** Signal that we want to show the main window */

@@ -86,10 +86,10 @@ private:
     int nDisplayUnit;
     QString strThirdPartyTxUrls;
     bool fCoinControlFeatures;
-    /** RVN START*/
+    /** ENB START*/
     bool fCustomFeeFeatures;
     bool fDarkModeEnabled;
-    /** RVN END*/
+    /** ENB END*/
     /* settings that were overridden by command-line */
     QString strOverriddenByCommandLine;
 

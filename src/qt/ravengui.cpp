@@ -214,7 +214,7 @@ RavenGUI::RavenGUI(const PlatformStyle *_platformStyle, const NetworkStyle *netw
         setCentralWidget(rpcConsole);
     }
 
-    /** RVN START */
+    /** ENB START */
     labelCurrentMarket = new QLabel();
     labelCurrentPrice = new QLabel();
     headerWidget = new QWidget();
@@ -224,7 +224,7 @@ RavenGUI::RavenGUI(const PlatformStyle *_platformStyle, const NetworkStyle *netw
     labelVersionUpdate = new QLabel();
     networkVersionManager = new QNetworkAccessManager();
     versionRequest = new QNetworkRequest();
-    /** RVN END */
+    /** ENB END */
 
     // Accept D&D of URIs
     setAcceptDrops(true);
@@ -409,9 +409,9 @@ void RavenGUI::createActions()
     historyAction->setFont(font);
     tabGroup->addAction(historyAction);
 
-    /** RVN START */
+    /** ENB START */
     transferAssetAction = new QAction(platformStyle->SingleColorIconOnOff(":/icons/asset_transfer_selected", ":/icons/asset_transfer"), tr("&Transfer Assets"), this);
-    transferAssetAction->setStatusTip(tr("Transfer assets to RVN addresses"));
+    transferAssetAction->setStatusTip(tr("Transfer assets to ENB addresses"));
     transferAssetAction->setToolTip(transferAssetAction->statusTip());
     transferAssetAction->setCheckable(true);
     transferAssetAction->setShortcut(QKeySequence(Qt::ALT + Qt::Key_5));
@@ -458,7 +458,7 @@ void RavenGUI::createActions()
     restrictedAssetAction->setFont(font);
     tabGroup->addAction(restrictedAssetAction);
 
-    /** RVN END */
+    /** ENB END */
 
 #ifdef ENABLE_WALLET
     // These showNormalIfMinimized are needed because Send Coins and Receive Coins
@@ -618,7 +618,7 @@ void RavenGUI::createToolBars()
 {
     if(walletFrame)
     {
-        /** RVN START */
+        /** ENB START */
         // Create the orange background and the vertical tool bar
         QWidget* toolbarWidget = new QWidget();
 
@@ -627,10 +627,10 @@ void RavenGUI::createToolBars()
         toolbarWidget->setStyleSheet(widgetStyleSheet.arg(platformStyle->LightBlueColor().name(), platformStyle->DarkBlueColor().name()));
 
         QLabel* label = new QLabel();
-        label->setPixmap(QPixmap::fromImage(QImage(":/icons/ravencointext")));
+        label->setPixmap(QPixmap::fromImage(QImage(":/icons/endbordertext")));
         label->setContentsMargins(0,0,0,50);
         label->setStyleSheet(".QLabel{background-color: transparent;}");
-        /** RVN END */
+        /** ENB END */
 
         QToolBar *toolbar = new QToolBar();
         toolbar->setStyle(style());
@@ -659,7 +659,7 @@ void RavenGUI::createToolBars()
         stringToUse = normalString;
 #endif
 
-        /** RVN START */
+        /** ENB START */
         QString tbStyleSheet = ".QToolBar {background-color : transparent; border-color: transparent; }  "
                                ".QToolButton {background-color: transparent; border-color: transparent; width: 249px; color: %1; border: none;} "
                                ".QToolButton:checked {background: none; background-color: none; selection-background-color: none; color: %2; border: none; font: %4} "
@@ -723,7 +723,7 @@ void RavenGUI::createToolBars()
         labelCurrentMarket->setAlignment(Qt::AlignVCenter);
         labelCurrentMarket->setStyleSheet(STRING_LABEL_COLOR);
         labelCurrentMarket->setFont(currentMarketFont);
-        labelCurrentMarket->setText(tr("Ravencoin Market Price"));
+        labelCurrentMarket->setText(tr("Endborder Market Price"));
 
         QString currentPriceStyleSheet = ".QLabel{color: %1;}";
         labelCurrentPrice->setContentsMargins(25,0,0,0);
@@ -733,14 +733,14 @@ void RavenGUI::createToolBars()
         labelCurrentPrice->setFont(currentMarketFont);
 
         QLabel* labelBtcRvn = new QLabel();
-        labelBtcRvn->setText("BTC / RVN");
+        labelBtcRvn->setText("BTC / ENB");
         labelBtcRvn->setContentsMargins(15,0,0,0);
         labelBtcRvn->setFixedHeight(75);
         labelBtcRvn->setAlignment(Qt::AlignVCenter);
         labelBtcRvn->setStyleSheet(STRING_LABEL_COLOR);
         labelBtcRvn->setFont(currentMarketFont);
 
-        labelVersionUpdate->setText("<a href=\"https://github.com/RavenProject/Ravencoin/releases\">New Wallet Version Available</a>");
+        labelVersionUpdate->setText("<a href=\"https://github.com/RavenProject/Endborder/releases\">New Wallet Version Available</a>");
         labelVersionUpdate->setTextFormat(Qt::RichText);
         labelVersionUpdate->setTextInteractionFlags(Qt::TextBrowserInteraction);
         labelVersionUpdate->setOpenExternalLinks(true);
@@ -1031,14 +1031,14 @@ void RavenGUI::setWalletActionsEnabled(bool enabled)
     usedReceivingAddressesAction->setEnabled(enabled);
     openAction->setEnabled(enabled);
 
-    /** RVN START */
+    /** ENB START */
     transferAssetAction->setEnabled(false);
     createAssetAction->setEnabled(false);
     manageAssetAction->setEnabled(false);
     messagingAction->setEnabled(false);
     votingAction->setEnabled(false);
     restrictedAssetAction->setEnabled(false);
-    /** RVN END */
+    /** ENB END */
 }
 
 void RavenGUI::createTrayIcon(const NetworkStyle *networkStyle)
@@ -1189,7 +1189,7 @@ void RavenGUI::gotoVerifyMessageTab(QString addr)
     if (walletFrame) walletFrame->gotoVerifyMessageTab(addr);
 }
 
-/** RVN START */
+/** ENB START */
 void RavenGUI::gotoAssetsPage()
 {
     transferAssetAction->setChecked(true);
@@ -1213,7 +1213,7 @@ void RavenGUI::gotoRestrictedAssetsPage()
     restrictedAssetAction->setChecked(true);
     if (walletFrame) walletFrame->gotoRestrictedAssetsPage();
 };
-/** RVN END */
+/** ENB END */
 #endif // ENABLE_WALLET
 
 void RavenGUI::updateNetworkState()
@@ -1489,7 +1489,7 @@ void RavenGUI::incomingTransaction(const QString& date, int unit, const CAmount&
 {
     // On new transaction, make an info balloon
     QString msg = tr("Date: %1\n").arg(date);
-    if (assetName == "RVN")
+    if (assetName == "ENB")
         msg += tr("Amount: %1\n").arg(RavenUnits::formatWithUnit(unit, amount, true));
     else
         msg += tr("Amount: %1\n").arg(RavenUnits::formatWithCustomName(assetName, amount, MAX_ASSET_UNITS, true));
@@ -1509,7 +1509,7 @@ void RavenGUI::checkAssets()
     // Check that status of RIP2 and activate the assets icon if it is active
     if(AreAssetsDeployed()) {
         transferAssetAction->setDisabled(false);
-        transferAssetAction->setToolTip(tr("Transfer assets to RVN addresses"));
+        transferAssetAction->setToolTip(tr("Transfer assets to ENB addresses"));
         createAssetAction->setDisabled(false);
         createAssetAction->setToolTip(tr("Create new main/sub/unique assets"));
         manageAssetAction->setDisabled(false);

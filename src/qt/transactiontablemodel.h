@@ -74,7 +74,7 @@ public:
         StatusRole,
         /** Unprocessed icon */
         RawDecorationRole,
-        /** RVN or name of an asset */
+        /** ENB or name of an asset */
         AssetNameRole,
     };
 

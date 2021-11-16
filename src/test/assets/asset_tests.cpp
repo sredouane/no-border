@@ -47,20 +47,20 @@ BOOST_FIXTURE_TEST_SUITE(asset_tests, BasicTestingSetup)
         BOOST_CHECK(!IsAssetNameValid("A._BC", type));
         BOOST_CHECK(!IsAssetNameValid("AB_.C", type));
 
-        //- Versions of RAVENCOIN NOT allowed
-        BOOST_CHECK(!IsAssetNameValid("RVN", type));
+        //- Versions of ENDBORDER NOT allowed
+        BOOST_CHECK(!IsAssetNameValid("ENB", type));
         BOOST_CHECK(!IsAssetNameValid("RAVEN", type));
-        BOOST_CHECK(!IsAssetNameValid("RAVENCOIN", type));
+        BOOST_CHECK(!IsAssetNameValid("ENDBORDER", type));
 
-        //- Versions of RAVENCOIN ALLOWED
+        //- Versions of ENDBORDER ALLOWED
         BOOST_CHECK(IsAssetNameValid("RAVEN.COIN", type));
         BOOST_CHECK(IsAssetNameValid("RAVEN_COIN", type));
-        BOOST_CHECK(IsAssetNameValid("RVNSPYDER", type));
-        BOOST_CHECK(IsAssetNameValid("SPYDERRVN", type));
+        BOOST_CHECK(IsAssetNameValid("ENBSPYDER", type));
+        BOOST_CHECK(IsAssetNameValid("SPYDERENB", type));
         BOOST_CHECK(IsAssetNameValid("RAVENSPYDER", type));
         BOOST_CHECK(IsAssetNameValid("SPYDERAVEN", type));
         BOOST_CHECK(IsAssetNameValid("BLACK_RAVENS", type));
-        BOOST_CHECK(IsAssetNameValid("SERVNOT", type));
+        BOOST_CHECK(IsAssetNameValid("SEENBOT", type));
 
         // subs
         BOOST_CHECK(IsAssetNameValid("ABC/A", type));

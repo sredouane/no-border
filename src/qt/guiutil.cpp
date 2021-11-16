@@ -271,7 +271,7 @@ bool parseRavenURI(const QUrl &uri, SendCoinsRecipient *out)
         {
             if(!i->second.isEmpty())
             {
-                if(!RavenUnits::parse(RavenUnits::RVN, i->second, &rv.amount))
+                if(!RavenUnits::parse(RavenUnits::ENB, i->second, &rv.amount))
                 {
                     return false;
                 }
@@ -310,7 +310,7 @@ QString formatRavenURI(const SendCoinsRecipient &info)
 
     if (info.amount)
     {
-        ret += QString("?amount=%1").arg(RavenUnits::format(RavenUnits::RVN, info.amount, false, RavenUnits::separatorNever));
+        ret += QString("?amount=%1").arg(RavenUnits::format(RavenUnits::ENB, info.amount, false, RavenUnits::separatorNever));
         paramCount++;
     }
 

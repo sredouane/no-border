@@ -122,7 +122,7 @@ private:
     QAction *openAction;
     QAction *showHelpMessageAction;
 
-    /** RVN START */
+    /** ENB START */
     QAction *transferAssetAction;
     QAction *createAssetAction;
     QAction *manageAssetAction;
@@ -138,7 +138,7 @@ private:
     QLabel *labelVersionUpdate;
     QNetworkAccessManager* networkVersionManager;
     QNetworkRequest* versionRequest;
-    /** RVN END */
+    /** ENB END */
 
     QSystemTrayIcon *trayIcon;
     QMenu *trayIconMenu;
@@ -250,13 +250,13 @@ private Q_SLOTS:
     /** Show open dialog */
     void openClicked();
 
-    /** RVN START */
+    /** ENB START */
     /** Switch to assets page */
     void gotoAssetsPage();
     void gotoCreateAssetsPage();
     void gotoManageAssetsPage();
     void gotoRestrictedAssetsPage();
-    /** RVN END */
+    /** ENB END */
 
 #endif // ENABLE_WALLET
     /** Show configuration dialog */

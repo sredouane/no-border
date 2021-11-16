@@ -2,8 +2,8 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef RAVENCOIN_ASSETFILTERPROXY_H
-#define RAVENCOIN_ASSETFILTERPROXY_H
+#ifndef ENDBORDER_ASSETFILTERPROXY_H
+#define ENDBORDER_ASSETFILTERPROXY_H
 
 #include <QSortFilterProxyModel>
 
@@ -24,4 +24,4 @@ private:
 };
 
 
-#endif //RAVENCOIN_ASSETFILTERPROXY_H
+#endif //ENDBORDER_ASSETFILTERPROXY_H

@@ -65,12 +65,12 @@ enum txnouttype
     TX_NULL_DATA = 5, //!< unspendable OP_RETURN script that carries data
     TX_WITNESS_V0_SCRIPTHASH = 6,
     TX_WITNESS_V0_KEYHASH = 7,
-    /** RVN START */
+    /** ENB START */
     TX_NEW_ASSET = 8,
     TX_REISSUE_ASSET = 9,
     TX_TRANSFER_ASSET = 10,
     TX_RESTRICTED_ASSET_DATA = 11, //!< unspendable OP_RAVEN_ASSET script that carries data
-    /** RVN END */
+    /** ENB END */
 };
 
 class CNoDestination {
@@ -84,7 +84,7 @@ public:
  *  * CNoDestination: no destination set
  *  * CKeyID: TX_PUBKEYHASH destination
  *  * CScriptID: TX_SCRIPTHASH destination
- *  A CTxDestination is the internal data type encoded in a ravencoin address
+ *  A CTxDestination is the internal data type encoded in a endborder address
  */
 typedef boost::variant<CNoDestination, CKeyID, CScriptID> CTxDestination;
 
