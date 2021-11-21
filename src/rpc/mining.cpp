@@ -868,12 +868,15 @@ static UniValue pprpcsb(const JSONRPCRequest& request) {
     blockptr->mix_hash = uint256S(mix_hash);
 
     if (blockptr->vtx.empty() || !blockptr->vtx[0]->IsCoinBase()) {
+		std::cout << "\n invalid proof of work 4";
         throw JSONRPCError(RPC_DESERIALIZATION_ERROR, "Block does not start with a coinbase");
     }
 
     uint256 retMixHash;
-    if (!CheckProofOfWork(blockptr->GetHashFull(retMixHash), blockptr->nBits, GetParams().GetConsensus()))
+    if (!CheckProofOfWork(blockptr->GetHashFull(retMixHash), blockptr->nBits, GetParams().GetConsensus())){
+		std::cout << "\n invalid proof of work 3";
         throw JSONRPCError(RPC_DESERIALIZATION_ERROR, "Block does not solve the boundary");
+	}
 
 
     uint256 hash = blockptr->GetHash();

@@ -459,6 +459,8 @@ bool CBlockTreeDB::ReadFlag(const std::string &name, bool &fValue) {
 
 bool CBlockTreeDB::LoadBlockIndexGuts(const Consensus::Params& consensusParams, std::function<CBlockIndex*(const uint256&)> insertBlockIndex)
 {
+		 std::cout << " LoadBlockIndexGuts failed"<<"\n";
+
     std::unique_ptr<CDBIterator> pcursor(NewIterator());
 
     pcursor->Seek(std::make_pair(DB_BLOCK_INDEX, uint256()));
@@ -488,11 +490,16 @@ bool CBlockTreeDB::LoadBlockIndexGuts(const Consensus::Params& consensusParams, 
                 pindexNew->mix_hash       = diskindex.mix_hash;
                 pindexNew->nHeight        = diskindex.nHeight;
 
-                if (!CheckProofOfWork(pindexNew->GetBlockHash(), pindexNew->nBits, consensusParams))
+                if (!CheckProofOfWork(pindexNew->GetBlockHash(), pindexNew->nBits, consensusParams)){
+							 std::cout << " LoadBlockIndexGuts returned error and failed"<<"\n";
+
                     return error("%s: CheckProofOfWork failed: %s", __func__, pindexNew->ToString());
+				}
 
                 pcursor->Next();
             } else {
+											 std::cout << " LoadBlockIndexGuts returned error and failed 2 "<<"\n";
+
                 return error("%s: failed to read value", __func__);
             }
         } else {

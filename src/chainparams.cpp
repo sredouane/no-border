@@ -180,17 +180,79 @@ public:
         pchMessageStart[3] = 0x52; // R
         nDefaultPort = 10467;
         nPruneAfterHeight = 100000;
+		
+		
+		uint32_t nGenesisTime = 1636829063;  // Saturday, November 13, 2021 6:44:23 PM
+		bool found = false;
+		        uint256 TempHashHolding = uint256S("0x0000000000000000000000000000000000000000000000000000000000000000");
+       uint256 BestBlockHash = uint256S("0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff");
+		while(found == false){
+			nGenesisTime++;
+			std::cout <<"\nusing time"<<nGenesisTime;
+		arith_uint256 test;
+        bool fNegative;
+        bool fOverflow;
+        test.SetCompact(0x1e00ffff, &fNegative, &fOverflow);
+        std::cout << "Test threshold: " << test.GetHex() << "\n\n";
+        int genesisNonce = 0;
+        uint256 TempHashHolding = uint256S("0x0000000000000000000000000000000000000000000000000000000000000000");
+       uint256 BestBlockHash = uint256S("0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff");
+        for (int i=0;i<40000000;i++) {
+            genesis = CreateGenesisBlock(nGenesisTime, i, 0x1e00ffff, 503382015,10 * COIN);
+            //genesis.hashPrevBlock = TempHashHolding;
+            // Depending on when the timestamp is on the genesis block. You will need to use GetX16RHash or GetX16RV2Hash. Replace GetHash() with these below
+            consensus.hashGenesisBlock = genesis.GetHash();
 
-        genesis = CreateGenesisBlock(1514999494, 25023712, 0x1e00ffff, 4, 10 * COIN);
+            arith_uint256 BestBlockHashArith = UintToArith256(BestBlockHash);
+            if (UintToArith256(consensus.hashGenesisBlock) < BestBlockHashArith) {
+				std::cout << "\n---------------new good hash-----\n";
+                BestBlockHash = consensus.hashGenesisBlock;
+                std::cout << BestBlockHash.GetHex() << " Nonce: " << i << "\n";
+                std::cout << "   PrevBlockHash: " << genesis.hashPrevBlock.GetHex() << "\n";
+            }
 
-        consensus.hashGenesisBlock = genesis.GetX16RHash();
+            TempHashHolding = consensus.hashGenesisBlock;
+            if (BestBlockHashArith < test) {
+                genesisNonce = i ;
+				found = true;
+               break;
+            }
+            //std::cout << consensus.hashGenesisBlock.GetHex() << "\n";
+        }
+		}
+        std::cout << "\n";
+        std::cout << "\n";
+        std::cout << "\n";
 
-        assert(consensus.hashGenesisBlock == uint256S("0000006b444bc2f2ffe627be9d9e7e7a0730000870ef6eb6da46c8eae389df90"));
-        assert(genesis.hashMerkleRoot == uint256S("28ff00a867739a352523808d301f504bc4547699398d70faf2266a8bae5f3516"));
+        std::cout << "hashGenesisBlock to 0x" << BestBlockHash.GetHex() << std::endl;
+        std::cout << "Genesis Merkle " << genesis.hashMerkleRoot.GetHex() << std::endl;
 
-        vSeeds.emplace_back("seed-raven.bitactivate.com", false);
-        vSeeds.emplace_back("seed-raven.endborder.com", false);
-        vSeeds.emplace_back("seed-raven.endborder.org", false);
+        std::cout << "\n";
+        std::cout << "\n";
+        int totalHits = 0;
+        double totalTime = 0.0;
+		
+		
+		
+
+        genesis = CreateGenesisBlock(1636829063, 16158556, 0x1e00ffff, 503382015,10 * COIN);
+
+        consensus.hashGenesisBlock = genesis.GetX16RV2Hash();
+		std::cout << genesis.GetX16RHash().ToString().c_str()<<"\n";
+		std::cout << genesis.GetX16RV2Hash().ToString().c_str()<<"\n";
+		std::cout << genesis.GetHash().ToString().c_str()<<"\n";
+
+		std::cout << "----------------------------------------------------------\n";
+
+		std::cout << consensus.hashGenesisBlock.ToString().c_str();
+		std::cout << "\n";
+		std::cout << genesis.hashMerkleRoot.ToString().c_str();
+        assert(consensus.hashGenesisBlock == uint256S("000000ddd0d809530e2044e702c1adabcf971fab0e1d4a2d4d7ec61e36735334"));
+        assert(genesis.hashMerkleRoot == uint256S("ece7d8fcf1ef11b5c1aec5f60a07e943fef8adbad4e6621776116dab180bbc54"));
+
+        //vSeeds.emplace_back("seed-raven.bitactivate.com", false);
+        //vSeeds.emplace_back("seed-raven.endborder.com", false);
+        //vSeeds.emplace_back("seed-raven.endborder.org", false);
 
         base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1,92);
         base58Prefixes[SCRIPT_ADDRESS] = std::vector<unsigned char>(1,122);
@@ -210,12 +272,7 @@ public:
 
         checkpointData = (CCheckpointData) {
             {
-                { 535721, uint256S("0x000000000001217f58a594ca742c8635ecaaaf695d1a63f6ab06979f1c159e04")},
-                { 697376, uint256S("0x000000000000499bf4ebbe61541b02e4692b33defc7109d8f12d2825d4d2dfa0")},
-                { 740000, uint256S("0x00000000000027d11bf1e7a3b57d3c89acc1722f39d6e08f23ac3a07e16e3172")},
-                { 909251, uint256S("0x000000000000694c9a363eff06518aa7399f00014ce667b9762f9a4e7a49f485")},
-                { 1040000, uint256S("0x000000000000138e2690b06b1ddd8cf158c3a5cf540ee5278debdcdffcf75839")},
-                { 1186833, uint256S("0x0000000000000d4840d4de1f7d943542c2aed532bd5d6527274fc0142fa1a410")}
+
             }
         };
 
@@ -401,19 +458,20 @@ public:
 
 //        /////////////////////////////////////////////////////////////////
 
-        genesis = CreateGenesisBlock(nGenesisTime, 15615880, 0x1e00ffff, 2, 5000 * COIN);
-        consensus.hashGenesisBlock = genesis.GetX16RHash();
+        genesis = CreateGenesisBlock(1636829063, 30098692, 0x1e00ffff, 2,10 * COIN);
+        consensus.hashGenesisBlock = genesis.GetX16RV2Hash();
 
         //Test MerkleRoot and GenesisBlock
-        assert(consensus.hashGenesisBlock == uint256S("0x000000ecfc5e6324a079542221d00e10362bdc894d56500c414060eea8a3ad5a"));
-        assert(genesis.hashMerkleRoot == uint256S("28ff00a867739a352523808d301f504bc4547699398d70faf2266a8bae5f3516"));
-
-        vFixedSeeds.clear();
+        //assert(consensus.hashGenesisBlock == uint256S("0x000000ecfc5e6324a079542221d00e10362bdc894d56500c414060eea8a3ad5a"));
+        //assert(genesis.hashMerkleRoot == uint256S("28ff00a867739a352523808d301f504bc4547699398d70faf2266a8bae5f3516"));
+		
+		//assert(consensus.hashGenesisBlock == uint256S("3913e9f4bb23aa7ca7e3a4593b4e950b646645454a95ec628672509b70521a6d"));
+        //assert(genesis.hashMerkleRoot == uint256S("ece7d8fcf1ef11b5c1aec5f60a07e943fef8adbad4e6621776116dab180bbc54"));
+        
+		vFixedSeeds.clear();
         vSeeds.clear();
 
-        vSeeds.emplace_back("seed-testnet-raven.bitactivate.com", false);
-        vSeeds.emplace_back("seed-testnet-raven.endborder.com", false);
-        vSeeds.emplace_back("seed-testnet-raven.endborder.org", false);
+
 
         base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1,111);
         base58Prefixes[SCRIPT_ADDRESS] = std::vector<unsigned char>(1,196);
@@ -433,10 +491,7 @@ public:
 
         checkpointData = (CCheckpointData) {
             {
-                    { 225, uint256S("0x000003465e3e0167322eb8269ce91246bbc211e293bc5fbf6f0a0d12c1ccb363")},
-                    {223408, uint256S("0x000000012a0c09dd6456ab19018cc458648dec762b04f4ddf8ef8108eae69db9")},
-                    {232980, uint256S("0x000000007b16ae547fce76c3308dbeec2090cde75de74ab5dfcd6f60d13f089b")},
-                    {257610, uint256S("0x000000006272208605c4df3b54d4d5515759105e7ffcb258e8cd8077924ffef1")}
+                   
             }
         };
 
@@ -618,11 +673,9 @@ public:
 //        /////////////////////////////////////////////////////////////////
 
 
-        genesis = CreateGenesisBlock(1524179366, 1, 0x207fffff, 4, 5000 * COIN);
-        consensus.hashGenesisBlock = genesis.GetX16RHash();
+        genesis = CreateGenesisBlock(1636829063, 30098692, 0x1e00ffff, 2,10 * COIN);
+        consensus.hashGenesisBlock = genesis.GetX16RV2Hash();
 
-        assert(consensus.hashGenesisBlock == uint256S("0x0b2c703dc93bb63a36c4e33b85be4855ddbca2ac951a7a0a29b8de0408200a3c "));
-        assert(genesis.hashMerkleRoot == uint256S("0x28ff00a867739a352523808d301f504bc4547699398d70faf2266a8bae5f3516"));
 
         vFixedSeeds.clear(); //!< Regtest mode doesn't have any fixed seeds.
         vSeeds.clear();      //!< Regtest mode doesn't have any DNS seeds.

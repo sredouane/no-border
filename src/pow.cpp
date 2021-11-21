@@ -186,14 +186,20 @@ bool CheckProofOfWork(uint256 hash, unsigned int nBits, const Consensus::Params&
     arith_uint256 bnTarget;
 
     bnTarget.SetCompact(nBits, &fNegative, &fOverflow);
-
+	
     // Check range
-    if (fNegative || bnTarget == 0 || fOverflow || bnTarget > UintToArith256(params.powLimit))
+    if (fNegative || bnTarget == 0 || fOverflow || bnTarget > UintToArith256(params.powLimit)){
+		std::cout << "\n invalid proof of work 1"<<hash.ToString().c_str();
+		std::cout << "\n invalid proof of work 1"<<ArithToUint256(bnTarget).ToString().c_str();
         return false;
+	}
 
     // Check proof of work matches claimed amount
-    if (UintToArith256(hash) > bnTarget)
+    if (UintToArith256(hash) > bnTarget){
+		std::cout << "\n invalid proof of work 2 "<<" "<<nBits<<" "<<hash.ToString().c_str();
+		std::cout << "\n invalid proof of work 2 "<<ArithToUint256(bnTarget).ToString().c_str();
         return false;
+	}
 
     return true;
 }

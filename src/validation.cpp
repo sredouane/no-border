@@ -1303,6 +1303,8 @@ bool ReadBlockFromDisk(CBlock& block, const CDiskBlockPos& pos, const Consensus:
     }
 
     // Check the header
+		std::cout << "checking  proof of work ReadBlockFromDisk"<<"\n";
+
     if (!CheckProofOfWork(block.GetHash(), block.nBits, consensusParams))
         return error("ReadBlockFromDisk: Errors in block header at %s", pos.ToString());
 
@@ -1734,7 +1736,7 @@ bool AbortNode(const std::string& strMessage, const std::string& userMessage="")
     SetMiscWarning(strMessage);
     LogPrintf("*** %s\n", strMessage);
     uiInterface.ThreadSafeMessageBox(
-        userMessage.empty() ? _("Error: A fatal internal error occurred, see debug.log for details") : userMessage,
+        userMessage.empty() ? _("Error:(AbortNode) A fatal internal error occurred, see debug.log for details") : userMessage,
         "", CClientUIInterface::MSG_ERROR);
 
     StartShutdown();
@@ -3939,10 +3941,16 @@ static bool FindUndoPos(CValidationState &state, int nFile, CDiskBlockPos &pos, 
 static bool CheckBlockHeader(const CBlockHeader& block, CValidationState& state, const Consensus::Params& consensusParams, bool fCheckPOW = true)
 {
     // If we are checking a KAWPOW block below a know checkpoint height. We can validate the proof of work using the mix_hash
+	std::cout << "checking  proof of work CheckBlockHeader 1"<<"\n";
     if (fCheckPOW && block.nTime >= nKAWPOWActivationTime) {
+		std::cout << "first if "<<"\n"<<fCheckPOW <<" "<<block.nTime<< " " << nKAWPOWActivationTime;
         CBlockIndex* pcheckpoint = Checkpoints::GetLastCheckpoint(GetParams().Checkpoints());
         if (fCheckPOW && pcheckpoint && block.nHeight <= (uint32_t)pcheckpoint->nHeight) {
+			 std::cout << "first if with checkpoint"<<"\n"<<fCheckPOW <<" "<<block.nTime<< " " << nKAWPOWActivationTime;
+
            if (!CheckProofOfWork(block.GetHash(), block.nBits, consensusParams)) {
+			   	 std::cout << " failed here 0"<<"\n"<<fCheckPOW;
+
                return state.DoS(50, false, REJECT_INVALID, "high-hash", false, "proof of work failed with mix_hash only check");
            }
 
@@ -3952,12 +3960,17 @@ static bool CheckBlockHeader(const CBlockHeader& block, CValidationState& state,
 
     uint256 mix_hash;
     // Check proof of work matches claimed amount
+	std::cout << "checking  proof of work CheckBlockHeader 2"<<"\n";
     if (fCheckPOW && !CheckProofOfWork(block.GetHashFull(mix_hash), block.nBits, consensusParams)) {
+	 std::cout << " failed here 1"<<"\n"<<fCheckPOW;
+
         return state.DoS(50, false, REJECT_INVALID, "high-hash", false, "proof of work failed");
     }
 
     if (fCheckPOW && block.nTime >= nKAWPOWActivationTime) {
         if (mix_hash != block.mix_hash) {
+				 std::cout << " failed here 2"<<"\n"<<fCheckPOW;
+
             return state.DoS(50, false, REJECT_INVALID, "invalid-mix-hash", false, "mix_hash validity failed");
         }
     }
