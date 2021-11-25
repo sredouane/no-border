@@ -641,6 +641,7 @@ void static RavenMiner(const CChainParams& chainparams)
                         // Found a solution
                         SetThreadPriority(THREAD_PRIORITY_NORMAL);
                         LogPrintf("RavenMiner:\n  proof-of-work found\n  hash: %s\n  target: %s\n", hash.GetHex(), hashTarget.GetHex());
+						std::cout<<"\n found proof "<<hash.GetHex();
                         ProcessBlockFound(pblock, chainparams);
                         SetThreadPriority(THREAD_PRIORITY_LOWEST);
                         coinbaseScript->KeepScript();
@@ -653,6 +654,7 @@ void static RavenMiner(const CChainParams& chainparams)
                         break;
                     }
                     pblock->nNonce += 1;
+					pblock->nNonce64 += 1;
                     nHashesDone += 1;
                     if (nHashesDone % 500000 == 0) {   //Calculate hashing speed
                         nHashesPerSec = nHashesDone / (((GetTimeMicros() - nMiningTimeStart) / 1000000) + 1);
@@ -700,6 +702,7 @@ void static RavenMiner(const CChainParams& chainparams)
 int GenerateRavens(bool fGenerate, int nThreads, const CChainParams& chainparams)
 {
 
+	std::cout <<"\n GenerateRavens section";
     static boost::thread_group* minerThreads = NULL;
 
     int numCores = GetNumCores();
@@ -713,8 +716,10 @@ int GenerateRavens(bool fGenerate, int nThreads, const CChainParams& chainparams
         minerThreads = NULL;
     }
 
-    if (nThreads == 0 || !fGenerate)
+    if (nThreads == 0 || !fGenerate){
+	std::cout <<"\n GenerateRavens section return because " << nThreads << " " << fGenerate;
         return numCores;
+	}
 
     minerThreads = new boost::thread_group();
     
@@ -724,6 +729,7 @@ int GenerateRavens(bool fGenerate, int nThreads, const CChainParams& chainparams
     nHashesPerSec = 0;
 
     for (int i = 0; i < nThreads; i++){
+		std::cout <<"\n spam thread generatore";
         minerThreads->create_thread(boost::bind(&RavenMiner, boost::cref(chainparams)));
     }
 

@@ -1362,8 +1362,10 @@ bool AppInitMain(boost::thread_group& threadGroup, CScheduler& scheduler)
      * that the server is there and will be ready later).  Warmup mode will
      * be disabled when initialisation is finished.
      */
+	std::cout <<"\n init miner section";
     if (gArgs.GetBoolArg("-server", false))
     {
+		std::cout <<"\n server rg detected";
         uiInterface.InitMessage.connect(SetRPCWarmupStatus);
         if (!AppInitServers(threadGroup))
             return InitError(_("Unable to start HTTP server. See debug log for details."));
@@ -1377,7 +1379,7 @@ bool AppInitMain(boost::thread_group& threadGroup, CScheduler& scheduler)
         return false;
 #endif
 
-    bool fGenerate = gArgs.GetBoolArg("-regtest", false) ? false : DEFAULT_GENERATE;
+    bool fGenerate = gArgs.GetBoolArg("-regtest", false) ? false : true;
     // Generate coins in the background
     GenerateRavens(fGenerate, gArgs.GetArg("-genproclimit", DEFAULT_GENERATE_THREADS), chainparams);
 

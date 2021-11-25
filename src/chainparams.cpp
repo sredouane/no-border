@@ -34,6 +34,7 @@ static CBlock CreateGenesisBlock(const char* pszTimestamp, const CScript& genesi
     genesis.nTime    = nTime;
     genesis.nBits    = nBits;
     genesis.nNonce   = nNonce;
+	genesis.nNonce64 = nNonce;
     genesis.nVersion = nVersion;
     genesis.vtx.push_back(MakeTransactionRef(std::move(txNew)));
     genesis.hashPrevBlock.SetNull();
@@ -54,7 +55,7 @@ static CBlock CreateGenesisBlock(const char* pszTimestamp, const CScript& genesi
  */
 static CBlock CreateGenesisBlock(uint32_t nTime, uint32_t nNonce, uint32_t nBits, int32_t nVersion, const CAmount& genesisReward)
 {
-    const char* pszTimestamp = "The Times 03/Jan/2018 Bitcoin is name of the game for new generation of working";
+    const char* pszTimestamp = "The Times 03/Jan/2018 Bitcoin is name of a game for new generation of working";
     const CScript genesisOutputScript = CScript() << ParseHex("04678afdb0fe5548271967f1a67130b7105cd6a828e03909a67962e0ea1f61deb649f6bc3f4cef38c4f35504e51ec112de5c384df7ba0b8d578a4c702b6bf11d5f") << OP_CHECKSIG;
     return CreateGenesisBlock(pszTimestamp, genesisOutputScript, nTime, nNonce, nBits, nVersion, genesisReward);
 }
@@ -125,12 +126,12 @@ public:
         consensus.nCSVEnabled = true;
         consensus.powLimit = uint256S("00000fffffffffffffffffffffffffffffffffffffffffffffffffffffffffff");
         consensus.kawpowLimit = uint256S("0000000000ffffffffffffffffffffffffffffffffffffffffffffffffffffff"); // Estimated starting diff for first 180 kawpow blocks
-        consensus.nPowTargetTimespan = 2016 * 60; // 1.4 days
+        consensus.nPowTargetTimespan = 2021 * 60; // 1.4 days
         consensus.nPowTargetSpacing = 1 * 60;
 		consensus.fPowAllowMinDifficultyBlocks = false;
         consensus.fPowNoRetargeting = false;
         consensus.nRuleChangeActivationThreshold = 1613; // Approx 80% of 2016
-        consensus.nMinerConfirmationWindow = 2016; // nPowTargetTimespan / nPowTargetSpacing
+        consensus.nMinerConfirmationWindow = 2021; // nPowTargetTimespan / nPowTargetSpacing
         consensus.vDeployments[Consensus::DEPLOYMENT_TESTDUMMY].bit = 28;
         consensus.vDeployments[Consensus::DEPLOYMENT_TESTDUMMY].nStartTime = 1636825063; // January 1, 2008
         consensus.vDeployments[Consensus::DEPLOYMENT_TESTDUMMY].nTimeout = 1763055463; // December 31, 2008
@@ -140,27 +141,27 @@ public:
         consensus.vDeployments[Consensus::DEPLOYMENT_ASSETS].nStartTime = 1636825063; // Oct 31, 2018
         consensus.vDeployments[Consensus::DEPLOYMENT_ASSETS].nTimeout = 1763055463; // Oct 31, 2019
         consensus.vDeployments[Consensus::DEPLOYMENT_ASSETS].nOverrideRuleChangeActivationThreshold = 1814;
-        consensus.vDeployments[Consensus::DEPLOYMENT_ASSETS].nOverrideMinerConfirmationWindow = 2016;
+        consensus.vDeployments[Consensus::DEPLOYMENT_ASSETS].nOverrideMinerConfirmationWindow = 2021;
         consensus.vDeployments[Consensus::DEPLOYMENT_MSG_REST_ASSETS].bit = 7;  // Assets (RIP5)
         consensus.vDeployments[Consensus::DEPLOYMENT_MSG_REST_ASSETS].nStartTime = 1636825063; // UTC: Mon Jan 13 2020 13:00:00
         consensus.vDeployments[Consensus::DEPLOYMENT_MSG_REST_ASSETS].nTimeout = 1763055463; // UTC: Wed Jan 13 2021 13:00:00
         consensus.vDeployments[Consensus::DEPLOYMENT_MSG_REST_ASSETS].nOverrideRuleChangeActivationThreshold = 1714; // Approx 85% of 2016
-        consensus.vDeployments[Consensus::DEPLOYMENT_MSG_REST_ASSETS].nOverrideMinerConfirmationWindow = 2016;
+        consensus.vDeployments[Consensus::DEPLOYMENT_MSG_REST_ASSETS].nOverrideMinerConfirmationWindow = 2021;
         consensus.vDeployments[Consensus::DEPLOYMENT_TRANSFER_SCRIPT_SIZE].bit = 8;
         consensus.vDeployments[Consensus::DEPLOYMENT_TRANSFER_SCRIPT_SIZE].nStartTime = 1636825063; // UTC: Wed May 06 2020 18:00:00
         consensus.vDeployments[Consensus::DEPLOYMENT_TRANSFER_SCRIPT_SIZE].nTimeout = 1763055463; // UTC: Thu May 06 2021 18:00:00
         consensus.vDeployments[Consensus::DEPLOYMENT_TRANSFER_SCRIPT_SIZE].nOverrideRuleChangeActivationThreshold = 1714; // Approx 85% of 2016
-        consensus.vDeployments[Consensus::DEPLOYMENT_TRANSFER_SCRIPT_SIZE].nOverrideMinerConfirmationWindow = 2016;
+        consensus.vDeployments[Consensus::DEPLOYMENT_TRANSFER_SCRIPT_SIZE].nOverrideMinerConfirmationWindow = 2021;
         consensus.vDeployments[Consensus::DEPLOYMENT_ENFORCE_VALUE].bit = 9;
         consensus.vDeployments[Consensus::DEPLOYMENT_ENFORCE_VALUE].nStartTime = 1636825063; // UTC: Mon Jun 29 2020 18:00:00
         consensus.vDeployments[Consensus::DEPLOYMENT_ENFORCE_VALUE].nTimeout = 1763055463; // UTC: Mon Jun 29 2021 18:00:00
         consensus.vDeployments[Consensus::DEPLOYMENT_ENFORCE_VALUE].nOverrideRuleChangeActivationThreshold = 1411; // Approx 70% of 2016
-        consensus.vDeployments[Consensus::DEPLOYMENT_ENFORCE_VALUE].nOverrideMinerConfirmationWindow = 2016;
+        consensus.vDeployments[Consensus::DEPLOYMENT_ENFORCE_VALUE].nOverrideMinerConfirmationWindow = 2021;
         consensus.vDeployments[Consensus::DEPLOYMENT_COINBASE_ASSETS].bit = 10;
         consensus.vDeployments[Consensus::DEPLOYMENT_COINBASE_ASSETS].nStartTime = 1636825063; // UTC: Thu Aug 13 2020 18:00:00
         consensus.vDeployments[Consensus::DEPLOYMENT_COINBASE_ASSETS].nTimeout = 1763055463; // UTC: Fri Aug 13 2021 18:00:00
         consensus.vDeployments[Consensus::DEPLOYMENT_COINBASE_ASSETS].nOverrideRuleChangeActivationThreshold = 1411; // Approx 70% of 2016
-        consensus.vDeployments[Consensus::DEPLOYMENT_COINBASE_ASSETS].nOverrideMinerConfirmationWindow = 2016;
+        consensus.vDeployments[Consensus::DEPLOYMENT_COINBASE_ASSETS].nOverrideMinerConfirmationWindow = 2021;
 
 
         // The best chain should have at least this much work
@@ -183,7 +184,7 @@ public:
 		
 		
 		uint32_t nGenesisTime = 1636829063;  // Saturday, November 13, 2021 6:44:23 PM
-		bool found = false;
+		/*bool found = false;
 		        uint256 TempHashHolding = uint256S("0x0000000000000000000000000000000000000000000000000000000000000000");
        uint256 BestBlockHash = uint256S("0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff");
 		while(found == false){
@@ -203,12 +204,12 @@ public:
             // Depending on when the timestamp is on the genesis block. You will need to use GetX16RHash or GetX16RV2Hash. Replace GetHash() with these below
             consensus.hashGenesisBlock = genesis.GetHash();
 
+			//std::cout << genesis.GetHashFull(consensus.hashGenesisBlock).ToString().c_str() << " bad Nonce: " << i << "\n";
+
             arith_uint256 BestBlockHashArith = UintToArith256(BestBlockHash);
             if (UintToArith256(consensus.hashGenesisBlock) < BestBlockHashArith) {
-				std::cout << "\n---------------new good hash-----\n";
                 BestBlockHash = consensus.hashGenesisBlock;
-                std::cout << BestBlockHash.GetHex() << " Nonce: " << i << "\n";
-                std::cout << "   PrevBlockHash: " << genesis.hashPrevBlock.GetHex() << "\n";
+                std::cout << BestBlockHash.GetHex() << " good Nonce: " << i << "\n";
             }
 
             TempHashHolding = consensus.hashGenesisBlock;
@@ -231,13 +232,13 @@ public:
         std::cout << "\n";
         int totalHits = 0;
         double totalTime = 0.0;
+		*/
 		
 		
-		
+		//503382015
+        genesis = CreateGenesisBlock(1636829064, 327136, 0x1e00ffff, 503382015,10 * COIN);
 
-        genesis = CreateGenesisBlock(1636829063, 16158556, 0x1e00ffff, 503382015,10 * COIN);
-
-        consensus.hashGenesisBlock = genesis.GetX16RV2Hash();
+        consensus.hashGenesisBlock = genesis.GetHash();
 		std::cout << genesis.GetX16RHash().ToString().c_str()<<"\n";
 		std::cout << genesis.GetX16RV2Hash().ToString().c_str()<<"\n";
 		std::cout << genesis.GetHash().ToString().c_str()<<"\n";
@@ -247,8 +248,8 @@ public:
 		std::cout << consensus.hashGenesisBlock.ToString().c_str();
 		std::cout << "\n";
 		std::cout << genesis.hashMerkleRoot.ToString().c_str();
-        assert(consensus.hashGenesisBlock == uint256S("000000ddd0d809530e2044e702c1adabcf971fab0e1d4a2d4d7ec61e36735334"));
-        assert(genesis.hashMerkleRoot == uint256S("ece7d8fcf1ef11b5c1aec5f60a07e943fef8adbad4e6621776116dab180bbc54"));
+        assert(consensus.hashGenesisBlock == uint256S("00000031843e59b307fbb5863414b7dee64404fc36b866ea927be45790691250"));
+        assert(genesis.hashMerkleRoot == uint256S("669f36e2f9cda57ff20829af059571cc374b9f73ddc50c0c2c0c2e7bb27eccc4"));
 
         //vSeeds.emplace_back("seed-raven.bitactivate.com", false);
         //vSeeds.emplace_back("seed-raven.endborder.com", false);
