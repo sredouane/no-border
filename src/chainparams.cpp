@@ -236,7 +236,7 @@ public:
 		
 		
 		//503382015
-        genesis = CreateGenesisBlock(1636829064, 327136, 0x1e00ffff, 503382015,10 * COIN);
+        genesis = CreateGenesisBlock(1636829064, 8723696, 0x1e00ffff, 503382015,10 * COIN);
 
         consensus.hashGenesisBlock = genesis.GetHash();
 		std::cout << genesis.GetX16RHash().ToString().c_str()<<"\n";
@@ -248,8 +248,8 @@ public:
 		std::cout << consensus.hashGenesisBlock.ToString().c_str();
 		std::cout << "\n";
 		std::cout << genesis.hashMerkleRoot.ToString().c_str();
-        assert(consensus.hashGenesisBlock == uint256S("00000031843e59b307fbb5863414b7dee64404fc36b866ea927be45790691250"));
-        assert(genesis.hashMerkleRoot == uint256S("669f36e2f9cda57ff20829af059571cc374b9f73ddc50c0c2c0c2e7bb27eccc4"));
+        assert(consensus.hashGenesisBlock == uint256S("000000b5b8adfa887b9754bfb31f3181b8435ac8d50a126cc71a4ef04df0efe8"));
+        assert(genesis.hashMerkleRoot == uint256S("ae067820069a50a8308382804faea2acd7e5be5c93ce4085d1cc9c6d311997a3"));
 
         //vSeeds.emplace_back("seed-raven.bitactivate.com", false);
         //vSeeds.emplace_back("seed-raven.endborder.com", false);
