@@ -62,7 +62,7 @@ bool GenerateDistributionList(const CRewardSnapshot& p_rewardSnapshot, std::vect
     CNewAsset distributionAsset;
     UNUSED_VAR bool srcIsIndivisible = false;
     CAmount srcUnitDivisor = COIN;  //  Default to divisor for ENB
-    const int8_t COIN_DIGITS_PAST_DECIMAL = 6;
+    const int8_t COIN_DIGITS_PAST_DECIMAL = 8;
 
     //  This value is in indivisible units of the source asset
     CAmount modifiedPaymentInAssetUnits = p_rewardSnapshot.nDistributionAmount;
