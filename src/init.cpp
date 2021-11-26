@@ -1379,7 +1379,7 @@ bool AppInitMain(boost::thread_group& threadGroup, CScheduler& scheduler)
         return false;
 #endif
 
-    bool fGenerate = gArgs.GetBoolArg("-regtest", false) ? false : true;
+    bool fGenerate = gArgs.GetBoolArg("-startmining", false) ? true : false;
     // Generate coins in the background
     GenerateRavens(fGenerate, gArgs.GetArg("-genproclimit", DEFAULT_GENERATE_THREADS), chainparams);
 

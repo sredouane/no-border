@@ -717,7 +717,7 @@ int GenerateRavens(bool fGenerate, int nThreads, const CChainParams& chainparams
     }
 
     if (nThreads == 0 || !fGenerate){
-	std::cout <<"\n GenerateRavens section return because " << nThreads << " " << fGenerate;
+		std::cout <<"\n Generate endBorder mining is disabled" << nThreads << " " << fGenerate;
         return numCores;
 	}
 
