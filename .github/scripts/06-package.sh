@@ -15,11 +15,8 @@ if [[ ! ${OS} || ! ${GITHUB_WORKSPACE} || ! ${GITHUB_BASE_REF} ]]; then
 fi
 
 cd ${GITHUB_WORKSPACE}
-MAJOR=`grep "define(_CLIENT_VERSION_MAJOR" configure.ac | cut -d"," -f2 | cut -d" " -f2 | cut -d")" -f1`
-MINOR=`grep "define(_CLIENT_VERSION_MINOR" configure.ac | cut -d"," -f2 | cut -d" " -f2 | cut -d")" -f1`
-REVISION=`grep "define(_CLIENT_VERSION_REVISION" configure.ac | cut -d"," -f2 | cut -d" " -f2 | cut -d")" -f1`
-BUILD=`grep "define(_CLIENT_VERSION_BUILD" configure.ac | cut -d"," -f2 | cut -d" " -f2 | cut -d")" -f1`
-VERSION="${MAJOR}.${MINOR}.${REVISION}.${BUILD}"
+PKGVERSION=`grep "PACKAGE_VERSION" src/config/raven-config.h | cut -d\" -f2`
+VERSION="${PKGVERSION}"
 SHORTHASH=`git rev-parse --short HEAD`
 RELEASE_LOCATION="${GITHUB_WORKSPACE}/release"
 STAGE_DIR="${GITHUB_WORKSPACE}/stage"
@@ -86,7 +83,7 @@ if [[ ${OS} == "windows" ]]; then
     for i in ${DISTNAME}-win64.zip ${DISTNAME}-win64-setup.exe ${DISTNAME}-win64-setup-unsigned.exe; do
         if [[ -e ${i} ]]; then
             md5sum ${i} >> ${i}.md5sum
-            sha256sum ${i} >> ${i}.md5sum
+            sha256sum ${i} >> ${i}.sha256sum
         else
             echo "${i} doesn't exist"
         fi
@@ -208,6 +205,42 @@ elif [[ ${OS} == "arm32v7" || ${OS} == "arm32v7-disable-wallet" ]]; then
             sha256sum ${DISTNAME}-arm-linux-gnueabihf.tar.gz >> ${DISTNAME}-arm-linux-gnueabihf.tar.gz.sha256sum
         else
             echo "${DISTNAME}-arm-linux-gnueabihf.tar.gz doesn't exist. $?"
+            exit 1
+        fi
+        cd ${STAGE_DIR}
+        cp -Rf ${DISTNAME}/bin/ravend .
+        cp -Rf ${DISTNAME}/bin/raven-cli .
+    else
+        echo "release directory doesn't exist"
+    fi
+elif [[ ${OS} == "aarch64" || ${OS} == "aarch64-disable-wallet" ]]; then
+
+    make install DESTDIR=${STAGE_DIR}/${DISTNAME}
+
+    cd ${STAGE_DIR}
+    find . -name "lib*.la" -delete
+    find . -name "lib*.a" -delete
+    rm -rf ${DISTNAME}/lib/pkgconfig
+    if [[ -e ${STAGE_DIR}/${DISTNAME}/bin ]]; then
+        find ${DISTNAME}/bin -type f -executable -exec ${GITHUB_WORKSPACE}/contrib/devtools/split-debug.sh {} {} {}.dbg \;
+    else
+        echo "${STAGE_DIR}/${DISTNAME}/bin doesn't exist. $?"
+    fi
+    if [[ -e ${STAGE_DIR}/${DISTNAME}/lib ]]; then
+        find ${DISTNAME}/lib -type f -exec ${GITHUB_WORKSPACE}/contrib/devtools/split-debug.sh {} {} {}.dbg \;
+    else
+        echo "${STAGE_DIR}/${DISTNAME}/lib doesn't exist. $?"
+    fi
+
+    if [[ -e ${RELEASE_LOCATION} ]]; then
+        cd ${STAGE_DIR}
+        find ${DISTNAME}/ -not -name "*.dbg" | sort | tar --no-recursion --mode='u+rw,go+r-w,a+X' --owner=0 --group=0 -c -T - | gzip -9n > ${RELEASE_LOCATION}/${DISTNAME}-aarch64-linux-gnu.tar.gz
+        if [[ -e ${RELEASE_LOCATION}/${DISTNAME}-aarch64-linux-gnu.tar.gz ]]; then
+            cd ${RELEASE_LOCATION}
+            md5sum ${DISTNAME}-aarch64-linux-gnu.tar.gz >> ${DISTNAME}-aarch64-linux-gnu.tar.gz.md5sum
+            sha256sum ${DISTNAME}-aarch64-linux-gnu.tar.gz >> ${DISTNAME}-aarch64-linux-gnu.tar.gz.sha256sum
+        else
+            echo "${DISTNAME}-aarch64-linux-gnu.tar.gz doesn't exist. $?"
             exit 1
         fi
         cd ${STAGE_DIR}

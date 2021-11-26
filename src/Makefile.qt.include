@@ -120,7 +120,9 @@ QT_FORMS_UI = \
   qt/forms/restrictedassignqualifier.ui \
   qt/forms/restrictedfreezeaddress.ui \
   qt/forms/sendassetsentry.ui \
-  qt/forms/mnemonicdialog.ui
+  qt/forms/mnemonicdialog1.ui \
+  qt/forms/mnemonicdialog2.ui \
+  qt/forms/mnemonicdialog3.ui
 
 QT_MOC_CPP = \
   qt/moc_addressbookpage.cpp \
@@ -225,6 +227,7 @@ RAVEN_QT_H = \
   qt/coincontroldialog.h \
   qt/coincontroltreewidget.h \
   qt/csvmodelwriter.h \
+  qt/currencyunits.h \
   qt/darkstyle.h \
   qt/editaddressdialog.h \
   qt/guiconstants.h \
@@ -335,6 +338,8 @@ RES_ICONS = \
   qt/res/icons/receive_selected.png \
   qt/res/icons/refresh.png \
   qt/res/icons/remove.png \
+  qt/res/icons/restricted_asset.png \
+  qt/res/icons/restricted_asset_selected.png \
   qt/res/icons/send.png \
   qt/res/icons/send_selected.png \
   qt/res/icons/synced.png \

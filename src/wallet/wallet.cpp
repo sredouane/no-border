@@ -109,9 +109,10 @@ public:
 
     void Process(const CScript &script) {
         txnouttype type;
+        txnouttype scriptType;
         std::vector<CTxDestination> vDest;
         int nRequired;
-        if (ExtractDestinations(script, type, vDest, nRequired)) {
+        if (ExtractDestinations(script, type, scriptType, vDest, nRequired)) {
             for (const CTxDestination &dest : vDest)
                 boost::apply_visitor(*this, dest);
         }
@@ -2423,8 +2424,9 @@ void CWallet::AvailableCoinsAll(std::vector<COutput>& vCoins, std::map<std::stri
             for (unsigned int i = 0; i < pcoin->tx->vout.size(); i++) {
 
                 int nType;
+                int nScriptType;
                 bool fIsOwner;
-                bool isAssetScript = pcoin->tx->vout[i].scriptPubKey.IsAssetScript(nType, fIsOwner);
+                bool isAssetScript = pcoin->tx->vout[i].scriptPubKey.IsAssetScript(nType, nScriptType, fIsOwner);
                 if (coinControl && !isAssetScript && coinControl->HasSelected() && !coinControl->fAllowOtherInputs && !coinControl->IsSelected(COutPoint((*it).first, i)))
                     continue;
 
@@ -2539,8 +2541,8 @@ std::map<CTxDestination, std::vector<COutput>> CWallet::ListAssets() const
     // CWalletTx objects, callers to this function really should acquire the
     // cs_wallet lock before calling it. However, the current caller doesn't
     // acquire this lock yet. There was an attempt to add the missing lock in
-    // https://github.com/RavenProject/Ravencoin/pull/10340, but that change has been
-    // postponed until after https://github.com/RavenProject/Ravencoin/pull/10244 to
+    // https://github.com/bitcoin/bitcoin/pull/10340, but that change has been
+    // postponed until after https://github.com/bitcoin/bitcoin/pull/10244 to
     // avoid adding some extra complexity to the Qt code.
 
     std::map<CTxDestination, std::vector<COutput>> result;
@@ -2591,8 +2593,8 @@ std::map<CTxDestination, std::vector<COutput>> CWallet::ListCoins() const
     // CWalletTx objects, callers to this function really should acquire the
     // cs_wallet lock before calling it. However, the current caller doesn't
     // acquire this lock yet. There was an attempt to add the missing lock in
-    // https://github.com/RavenProject/Ravencoin/pull/10340, but that change has been
-    // postponed until after https://github.com/RavenProject/Ravencoin/pull/10244 to
+    // https://github.com/bitcoin/bitcoin/pull/10340, but that change has been
+    // postponed until after https://github.com/bitcoin/bitcoin/pull/10244 to
     // avoid adding some extra complexity to the Qt code.
 
     std::map<CTxDestination, std::vector<COutput>> result;
@@ -2973,9 +2975,10 @@ bool CWallet::SelectAssetsMinConf(const CAmount& nTargetValue, const int nConfMi
 
         //-------------------------------
 
-        int nType = -1;
+        int nType = 0;
+        int nScriptType = 0;
         bool fIsOwner = false;
-        if (!coin.txout.scriptPubKey.IsAssetScript(nType, fIsOwner)) {
+        if (!coin.txout.scriptPubKey.IsAssetScript(nType, nScriptType, fIsOwner)) {
             continue;
         }
 
@@ -4602,8 +4605,8 @@ void CWallet::GetKeyBirthTimes(std::map<CTxDestination, int64_t> &mapKeyBirth) c
  *   the block time.
  *
  * For more information see CWalletTx::nTimeSmart,
- * https://raventalk.org/?topic=54527, or
- * https://github.com/RavenProject/Ravencoin/pull/1393.
+ * https://bitcointalk.org/?topic=54527, or
+ * https://github.com/bitcoin/bitcoin/pull/1393.
  */
 unsigned int CWallet::ComputeTimeSmart(const CWalletTx& wtx) const
 {
@@ -5023,5 +5026,3 @@ bool CMerkleTx::AcceptToMemoryPool(const CAmount& nAbsurdFee, CValidationState& 
     return ::AcceptToMemoryPool(mempool, state, tx, nullptr /* pfMissingInputs */,
                                 nullptr /* plTxnReplaced */, false /* bypass_limits */, nAbsurdFee);
 }
-
-

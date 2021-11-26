@@ -85,6 +85,7 @@ BASE_SCRIPTS= [
     'wallet_basic.py',
     'mempool_limit.py',
     'feature_assets.py',
+    'feature_assets_p2sh.py',
     'feature_messaging.py',
     'feature_assets_reorg.py',
     'feature_assets_mempool.py',
@@ -115,6 +116,7 @@ BASE_SCRIPTS= [
     'feature_versionbits_warning.py',
     'rpc_spentindex.py',
     'feature_rawassettransactions.py',
+    'feature_sweep.py',
     'wallet_importmulti.py',
     'wallet_labels.py',
     'wallet_import_with_label.py',
@@ -258,8 +260,8 @@ def main():
 
     # Don't run tests on Windows by default
     if config["environment"]["EXEEXT"] == ".exe" and not args.force:
-        # https://github.com/RavenProject/Endborder/commit/d52802551752140cf41f0d9a225a43e84404d3e9
-        # https://github.com/RavenProject/Endborder/pull/5677#issuecomment-136646964
+        # https://github.com/bitcoin/bitcoin/commit/d52802551752140cf41f0d9a225a43e84404d3e9
+        # https://github.com/bitcoin/bitcoin/pull/5677#issuecomment-136646964
         print("Tests currently disabled on Windows by default. Use --force option to enable")
         sys.exit(0)
 

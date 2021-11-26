@@ -162,6 +162,13 @@ public:
         consensus.vDeployments[Consensus::DEPLOYMENT_COINBASE_ASSETS].nTimeout = 1763055463; // UTC: Fri Aug 13 2021 18:00:00
         consensus.vDeployments[Consensus::DEPLOYMENT_COINBASE_ASSETS].nOverrideRuleChangeActivationThreshold = 1411; // Approx 70% of 2016
         consensus.vDeployments[Consensus::DEPLOYMENT_COINBASE_ASSETS].nOverrideMinerConfirmationWindow = 2021;
+		consensus.vDeployments[Consensus::DEPLOYMENT_P2SH_ASSETS].bit = 11;
+        consensus.vDeployments[Consensus::DEPLOYMENT_P2SH_ASSETS].nStartTime = 1682956800; // UTC: Mon Mai 01 2023 18:00:00
+        consensus.vDeployments[Consensus::DEPLOYMENT_P2SH_ASSETS].nTimeout = 1714579200; // UTC: Wed Mai 01 2024 18:00:00
+        consensus.vDeployments[Consensus::DEPLOYMENT_P2SH_ASSETS].nOverrideRuleChangeActivationThreshold = 2016; // 100% required, hardly happens
+//        consensus.vDeployments[Consensus::DEPLOYMENT_P2SH_ASSETS].nOverrideRuleChangeActivationThreshold = 1411; // Approx 70% of 2016
+        consensus.vDeployments[Consensus::DEPLOYMENT_P2SH_ASSETS].nOverrideMinerConfirmationWindow = 2016;
+	    
 
 
         // The best chain should have at least this much work
@@ -273,7 +280,6 @@ public:
 
         checkpointData = (CCheckpointData) {
             {
-
             }
         };
 
@@ -381,6 +387,11 @@ public:
         consensus.vDeployments[Consensus::DEPLOYMENT_COINBASE_ASSETS].nTimeout = 1628877600; // UTC: Fri Aug 13 2021 18:00:00
         consensus.vDeployments[Consensus::DEPLOYMENT_COINBASE_ASSETS].nOverrideRuleChangeActivationThreshold = 1411; // Approx 70% of 2016
         consensus.vDeployments[Consensus::DEPLOYMENT_COINBASE_ASSETS].nOverrideMinerConfirmationWindow = 2016;
+        consensus.vDeployments[Consensus::DEPLOYMENT_P2SH_ASSETS].bit = 11;
+        consensus.vDeployments[Consensus::DEPLOYMENT_P2SH_ASSETS].nStartTime = 1619971200; // UTC: Sun May 02 2021 18:00:00
+        consensus.vDeployments[Consensus::DEPLOYMENT_P2SH_ASSETS].nTimeout = 1651507200; // UTC: Mon May 02 2022 18:00:00
+        consensus.vDeployments[Consensus::DEPLOYMENT_P2SH_ASSETS].nOverrideRuleChangeActivationThreshold = 1411; // Approx 70% of 2016
+        consensus.vDeployments[Consensus::DEPLOYMENT_P2SH_ASSETS].nOverrideMinerConfirmationWindow = 2016;
 
         // The best chain should have at least this much work.
         consensus.nMinimumChainWork = uint256S("0x000000000000000000000000000000000000000000000000000168050db560b4");
@@ -492,7 +503,7 @@ public:
 
         checkpointData = (CCheckpointData) {
             {
-                   
+
             }
         };
 
@@ -587,8 +598,8 @@ public:
         consensus.vDeployments[Consensus::DEPLOYMENT_TRANSFER_SCRIPT_SIZE].bit = 8;
         consensus.vDeployments[Consensus::DEPLOYMENT_TRANSFER_SCRIPT_SIZE].nStartTime = 0;
         consensus.vDeployments[Consensus::DEPLOYMENT_TRANSFER_SCRIPT_SIZE].nTimeout = 999999999999ULL;
-        consensus.vDeployments[Consensus::DEPLOYMENT_TRANSFER_SCRIPT_SIZE].nOverrideRuleChangeActivationThreshold = 208;
-        consensus.vDeployments[Consensus::DEPLOYMENT_TRANSFER_SCRIPT_SIZE].nOverrideMinerConfirmationWindow = 288;
+        consensus.vDeployments[Consensus::DEPLOYMENT_TRANSFER_SCRIPT_SIZE].nOverrideRuleChangeActivationThreshold = 108;
+        consensus.vDeployments[Consensus::DEPLOYMENT_TRANSFER_SCRIPT_SIZE].nOverrideMinerConfirmationWindow = 144;
         consensus.vDeployments[Consensus::DEPLOYMENT_ENFORCE_VALUE].bit = 9;
         consensus.vDeployments[Consensus::DEPLOYMENT_ENFORCE_VALUE].nStartTime = 0;
         consensus.vDeployments[Consensus::DEPLOYMENT_ENFORCE_VALUE].nTimeout = 999999999999ULL;
@@ -599,6 +610,11 @@ public:
         consensus.vDeployments[Consensus::DEPLOYMENT_COINBASE_ASSETS].nTimeout = 999999999999ULL;
         consensus.vDeployments[Consensus::DEPLOYMENT_COINBASE_ASSETS].nOverrideRuleChangeActivationThreshold = 400;
         consensus.vDeployments[Consensus::DEPLOYMENT_COINBASE_ASSETS].nOverrideMinerConfirmationWindow = 500;
+        consensus.vDeployments[Consensus::DEPLOYMENT_P2SH_ASSETS].bit = 11;
+        consensus.vDeployments[Consensus::DEPLOYMENT_P2SH_ASSETS].nStartTime = 0;
+        consensus.vDeployments[Consensus::DEPLOYMENT_P2SH_ASSETS].nTimeout = 999999999999ULL;
+        consensus.vDeployments[Consensus::DEPLOYMENT_P2SH_ASSETS].nOverrideRuleChangeActivationThreshold = 108;
+        consensus.vDeployments[Consensus::DEPLOYMENT_P2SH_ASSETS].nOverrideMinerConfirmationWindow = 144;
 
         // The best chain should have at least this much work.
         consensus.nMinimumChainWork = uint256S("0x00");

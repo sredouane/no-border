@@ -48,7 +48,7 @@ static const auto MAX_CHANNEL_NAME_LENGTH = 12;
 static const std::regex ROOT_NAME_CHARACTERS("^[A-Z0-9._]{3,}$");
 static const std::regex SUB_NAME_CHARACTERS("^[A-Z0-9._]+$");
 static const std::regex UNIQUE_TAG_CHARACTERS("^[-A-Za-z0-9@$%&*()[\\]{}_.?:]+$");
-static const std::regex MSGCHANNEL_TAG_CHARACTERS("^[A-Za-z0-9_]+$");
+static const std::regex MSG_CHANNEL_TAG_CHARACTERS("^[A-Za-z0-9_]+$");
 static const std::regex VOTE_TAG_CHARACTERS("^[A-Z0-9._]+$");
 
 // Restricted assets
@@ -63,13 +63,12 @@ static const std::regex QUALIFIER_LEADING_PUNCTUATION("^[#\\$][._].*$"); // Used
 
 static const std::string SUB_NAME_DELIMITER = "/";
 static const std::string UNIQUE_TAG_DELIMITER = "#";
-static const std::string MSGCHANNEL_TAG_DELIMITER = "~";
-// static const char RESTRICTED_TAG_CHAR = '$'; //<- Commented out - fixes "not used" warning
+static const std::string MSG_CHANNEL_TAG_DELIMITER = "~";
 static const std::string VOTE_TAG_DELIMITER = "^";
 static const std::string RESTRICTED_TAG_DELIMITER = "$";
 
 static const std::regex UNIQUE_INDICATOR(R"(^[^^~#!]+#[^~#!\/]+$)");
-static const std::regex MSGCHANNEL_INDICATOR(R"(^[^^~#!]+~[^~#!\/]+$)");
+static const std::regex MSG_CHANNEL_INDICATOR(R"(^[^^~#!]+~[^~#!\/]+$)");
 static const std::regex OWNER_INDICATOR(R"(^[^^~#!]+!$)");
 static const std::regex VOTE_INDICATOR(R"(^[^^~#!]+\^[^~#!\/]+$)");
 
@@ -134,7 +133,7 @@ bool IsVoteTagValid(const std::string& tag)
 
 bool IsMsgChannelTagValid(const std::string &tag)
 {
-    return std::regex_match(tag, MSGCHANNEL_TAG_CHARACTERS)
+    return std::regex_match(tag, MSG_CHANNEL_TAG_CHARACTERS)
         && !std::regex_match(tag, DOUBLE_PUNCTUATION)
         && !std::regex_match(tag, LEADING_PUNCTUATION)
         && !std::regex_match(tag, TRAILING_PUNCTUATION);
@@ -219,7 +218,7 @@ bool IsAssetNameValid(const std::string& name, AssetType& assetType, std::string
 
         return ret;
     }
-    else if (std::regex_match(name, MSGCHANNEL_INDICATOR))
+    else if (std::regex_match(name, MSG_CHANNEL_INDICATOR))
     {
         bool ret = IsTypeCheckNameValid(AssetType::MSGCHANNEL, name, error);
         if (ret)
@@ -324,7 +323,7 @@ bool IsAssetNameAQualifier(const std::string& name, bool fOnlyQualifiers)
 
 bool IsAssetNameAnMsgChannel(const std::string& name)
 {
-    return IsAssetNameValid(name) && std::regex_match(name, MSGCHANNEL_INDICATOR);
+    return IsAssetNameValid(name) && std::regex_match(name, MSG_CHANNEL_INDICATOR);
 }
 
 // TODO get the string translated below
@@ -340,7 +339,7 @@ bool IsTypeCheckNameValid(const AssetType type, const std::string& name, std::st
     } else if (type == AssetType::MSGCHANNEL) {
         if (name.size() > MAX_NAME_LENGTH) { error = "Name is greater than max length of " + std::to_string(MAX_NAME_LENGTH); return false; }
         std::vector<std::string> parts;
-        boost::split(parts, name, boost::is_any_of(MSGCHANNEL_TAG_DELIMITER));
+        boost::split(parts, name, boost::is_any_of(MSG_CHANNEL_TAG_DELIMITER));
         bool valid = IsNameValidBeforeTag(parts.front()) && IsMsgChannelTagValid(parts.back());
         if (parts.back().size() > MAX_CHANNEL_NAME_LENGTH) { error = "Channel name is greater than max length of " + std::to_string(MAX_CHANNEL_NAME_LENGTH); return false; }
         if (!valid) { error = "Message Channel name contains invalid characters (Valid characters are: A-Z 0-9 _ .) (special characters can't be the first or last characters)";  return false; }
@@ -401,7 +400,7 @@ std::string GetParentName(const std::string& name)
     } else if (type == AssetType::UNIQUE) {
         index = name.find_last_of(UNIQUE_TAG_DELIMITER);
     } else if (type == AssetType::MSGCHANNEL) {
-        index = name.find_last_of(MSGCHANNEL_TAG_DELIMITER);
+        index = name.find_last_of(MSG_CHANNEL_TAG_DELIMITER);
     } else if (type == AssetType::VOTE) {
         index = name.find_last_of(VOTE_TAG_DELIMITER);
     } else if (type == AssetType::ROOT) {
@@ -3170,8 +3169,9 @@ bool IsScriptNewAsset(const CScript& scriptPubKey)
 bool IsScriptNewAsset(const CScript& scriptPubKey, int& nStartingIndex)
 {
     int nType = 0;
-    bool fIsOwner =false;
-    if (scriptPubKey.IsAssetScript(nType, fIsOwner, nStartingIndex)) {
+    int nScriptType = 0;
+    bool fIsOwner = false;
+    if (scriptPubKey.IsAssetScript(nType, nScriptType, fIsOwner, nStartingIndex)) {
         return nType == TX_NEW_ASSET && !fIsOwner;
     }
     return false;
@@ -3186,8 +3186,9 @@ bool IsScriptNewUniqueAsset(const CScript& scriptPubKey)
 bool IsScriptNewUniqueAsset(const CScript &scriptPubKey, int &nStartingIndex)
 {
     int nType = 0;
+    int nScriptType = 0;
     bool fIsOwner = false;
-    if (!scriptPubKey.IsAssetScript(nType, fIsOwner, nStartingIndex))
+    if (!scriptPubKey.IsAssetScript(nType, nScriptType, fIsOwner, nStartingIndex))
         return false;
 
     CNewAsset asset;
@@ -3211,8 +3212,9 @@ bool IsScriptNewMsgChannelAsset(const CScript& scriptPubKey)
 bool IsScriptNewMsgChannelAsset(const CScript &scriptPubKey, int &nStartingIndex)
 {
     int nType = 0;
+    int nScriptType = 0;
     bool fIsOwner = false;
-    if (!scriptPubKey.IsAssetScript(nType, fIsOwner, nStartingIndex))
+    if (!scriptPubKey.IsAssetScript(nType, nScriptType, fIsOwner, nStartingIndex))
         return false;
 
     CNewAsset asset;
@@ -3237,8 +3239,9 @@ bool IsScriptOwnerAsset(const CScript& scriptPubKey)
 bool IsScriptOwnerAsset(const CScript& scriptPubKey, int& nStartingIndex)
 {
     int nType = 0;
+    int nScriptType = 0;
     bool fIsOwner =false;
-    if (scriptPubKey.IsAssetScript(nType, fIsOwner, nStartingIndex)) {
+    if (scriptPubKey.IsAssetScript(nType, nScriptType, fIsOwner, nStartingIndex)) {
         return nType == TX_NEW_ASSET && fIsOwner;
     }
 
@@ -3254,8 +3257,9 @@ bool IsScriptReissueAsset(const CScript& scriptPubKey)
 bool IsScriptReissueAsset(const CScript& scriptPubKey, int& nStartingIndex)
 {
     int nType = 0;
+    int nScriptType = 0;
     bool fIsOwner =false;
-    if (scriptPubKey.IsAssetScript(nType, fIsOwner, nStartingIndex)) {
+    if (scriptPubKey.IsAssetScript(nType, nScriptType, fIsOwner, nStartingIndex)) {
         return nType == TX_REISSUE_ASSET;
     }
 
@@ -3271,8 +3275,9 @@ bool IsScriptTransferAsset(const CScript& scriptPubKey)
 bool IsScriptTransferAsset(const CScript& scriptPubKey, int& nStartingIndex)
 {
     int nType = 0;
+    int nScriptType = 0;
     bool fIsOwner = false;
-    if (scriptPubKey.IsAssetScript(nType, fIsOwner, nStartingIndex)) {
+    if (scriptPubKey.IsAssetScript(nType, nScriptType, fIsOwner, nStartingIndex)) {
         return nType == TX_TRANSFER_ASSET;
     }
 
@@ -3288,8 +3293,9 @@ bool IsScriptNewQualifierAsset(const CScript& scriptPubKey)
 bool IsScriptNewQualifierAsset(const CScript &scriptPubKey, int &nStartingIndex)
 {
     int nType = 0;
+    int nScriptType = 0;
     bool fIsOwner = false;
-    if (!scriptPubKey.IsAssetScript(nType, fIsOwner, nStartingIndex))
+    if (!scriptPubKey.IsAssetScript(nType, nScriptType, fIsOwner, nStartingIndex))
         return false;
 
     CNewAsset asset;
@@ -3313,8 +3319,9 @@ bool IsScriptNewRestrictedAsset(const CScript& scriptPubKey)
 bool IsScriptNewRestrictedAsset(const CScript &scriptPubKey, int &nStartingIndex)
 {
     int nType = 0;
+    int nScriptType = 0;
     bool fIsOwner = false;
-    if (!scriptPubKey.IsAssetScript(nType, fIsOwner, nStartingIndex))
+    if (!scriptPubKey.IsAssetScript(nType, nScriptType, fIsOwner, nStartingIndex))
         return false;
 
     CNewAsset asset;
@@ -3507,12 +3514,15 @@ bool GetAssetData(const CScript& script, CAssetOutputEntry& data)
     std::string assetName = "";
 
     int nType = 0;
+    int nScriptType = 0;
     bool fIsOwner = false;
-    if (!script.IsAssetScript(nType, fIsOwner)) {
+    if (!script.IsAssetScript(nType, nScriptType, fIsOwner)) {
         return false;
     }
 
     txnouttype type = txnouttype(nType);
+    txnouttype scriptType = txnouttype(nScriptType);
+    data.scriptType = scriptType;
 
     // Get the New Asset or Transfer Asset from the scriptPubKey
     if (type == TX_NEW_ASSET && !fIsOwner) {
@@ -4440,13 +4450,13 @@ void GetTxOutAssetTypes(const std::vector<CTxOut>& vout, int& issues, int& reiss
     }
 }
 
-bool ParseAssetScript(CScript scriptPubKey, uint160 &hashBytes, std::string &assetName, CAmount &assetAmount) {
+bool ParseAssetScript(CScript scriptPubKey, uint160 &hashBytes, int& nScriptType, std::string &assetName, CAmount &assetAmount) {
     int nType;
     bool fIsOwner;
     int _nStartingPoint;
     std::string _strAddress;
     bool isAsset = false;
-    if (scriptPubKey.IsAssetScript(nType, fIsOwner, _nStartingPoint)) {
+    if (scriptPubKey.IsAssetScript(nType, nScriptType, fIsOwner, _nStartingPoint)) {
         if (nType == TX_NEW_ASSET) {
             if (fIsOwner) {
                 if (OwnerAssetFromScript(scriptPubKey, assetName, _strAddress)) {
@@ -4490,8 +4500,16 @@ bool ParseAssetScript(CScript scriptPubKey, uint160 &hashBytes, std::string &ass
 //        LogPrintf("%s : Found no asset in script: %s", __func__, HexStr(scriptPubKey));
     }
     if (isAsset) {
+        if (nScriptType == TX_SCRIPTHASH) {
+            hashBytes = uint160(std::vector <unsigned char>(scriptPubKey.begin()+2, scriptPubKey.begin()+22));
+        } else if (nScriptType == TX_PUBKEYHASH) {
+            hashBytes = uint160(std::vector <unsigned char>(scriptPubKey.begin()+3, scriptPubKey.begin()+23));
+        } else {
+            return false;
+        }
+
 //        LogPrintf("%s : Found assets in script at address %s : %s (%s)", __func__, _strAddress, assetName, assetAmount);
-        hashBytes = uint160(std::vector <unsigned char>(scriptPubKey.begin()+3, scriptPubKey.begin()+23));
+
         return true;
     }
     return false;
@@ -4517,7 +4535,7 @@ bool CNullAssetTxData::IsValid(std::string &strError, CAssetsCache &assetCache, 
         return false;
     }
 
-    if (flag != 0 || flag != 1) {
+    if (flag != 0 && flag != 1) {
         strError = _("Flag must be 1 or 0");
         return false;
     }

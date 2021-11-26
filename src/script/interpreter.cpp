@@ -114,8 +114,8 @@ bool static IsCompressedPubKey(const valtype &vchPubKey)
  * Where R and S are not negative (their first byte has its highest bit not set), and not
  * excessively padded (do not start with a 0 byte, unless an otherwise negative number follows,
  * in which case a single 0 byte is necessary and even required).
- * 
- * See https://raventalk.org/index.php?topic=8392.msg127623#msg127623
+ *
+ * See https://bitcointalk.org/index.php?topic=8392.msg127623#msg127623
  *
  * This function is consensus-critical since BIP66.
  */
@@ -297,6 +297,7 @@ bool EvalScript(std::vector<std::vector<unsigned char> > &stack, const CScript &
 
     CScript::const_iterator pc = script.begin();
     CScript::const_iterator pend = script.end();
+
     CScript::const_iterator pbegincodehash = script.begin();
     opcodetype opcode;
     valtype vchPushValue;
@@ -1602,7 +1603,7 @@ bool VerifyScript(const CScript &scriptSig, const CScript &scriptPubKey, const C
     }
 
     // Additional validation for spend-to-script-hash transactions:
-    if ((flags & SCRIPT_VERIFY_P2SH) && scriptPubKey.IsPayToScriptHash())
+    if ((flags & SCRIPT_VERIFY_P2SH) && (scriptPubKey.IsPayToScriptHash() || scriptPubKey.IsP2SHAssetScript()))
     {
         // scriptSig must be literals-only or validation fails
         if (!scriptSig.IsPushOnly())

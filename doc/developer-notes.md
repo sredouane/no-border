@@ -34,6 +34,9 @@ code.
   - Constant names are all uppercase, and use `_` to separate words.
   - Class names, function names and method names are UpperCamelCase
     (PascalCase). Do not prefix class names with `C`.
+  - Test suite naming convention: The Boost test suite in file
+    `src/test/foo_tests.cpp` should be named `foo_tests`. Test suite names
+    must be unique.
 
 - **Miscellaneous**
   - `++i` is preferred over `i++`.
@@ -486,13 +489,10 @@ Subtrees
 ----------
 
 Several parts of the repository are subtrees of software maintained elsewhere.
-
-Some of these are maintained by active developers of Raven Core, in which case changes should probably go
-directly upstream without being PRed directly against the project.  They will be merged back in the next
-subtree merge.
+They will be merged back in the next subtree merge.
 
 Others are external projects without a tight relationship with our project.  Changes to these should also
-be sent upstream but bugfixes may also be prudent to PR against Raven Core so that they can be integrated
+be sent upstream but bugfixes may also be prudent to PR against Ravencoin so that they can be integrated
 quickly.  Cosmetic changes should be purely taken upstream.
 
 There is a tool in contrib/devtools/git-subtree-check.sh to check a subtree directory for consistency with
@@ -507,10 +507,10 @@ Current subtrees include:
     merging upstream changes to the leveldb subtree.
 
 - src/libsecp256k1
-  - Upstream at https://github.com/raven-core/secp256k1/ ; actively maintaned by Core contributors.
+  - Upstream at https://github.com/bitcoin-core/secp256k1/ ; actively maintaned by Bitcoin Core contributors.
 
 - src/crypto/ctaes
-  - Upstream at https://github.com/raven-core/ctaes ; actively maintained by Core contributors.
+  - Upstream at https://github.com/bitcoin-core/ctaes ; actively maintained by Bitcoin Core contributors.
 
 - src/univalue
   - Upstream at https://github.com/jgarzik/univalue ; report important PRs to Core to avoid delay.
@@ -706,7 +706,3 @@ A few guidelines for introducing and reviewing new RPC interfaces:
   - *Rationale*: If a RPC response is not a JSON object then it is harder to avoid API breakage if
     new data in the response is needed.
 
-
-IRC Required Commit
----------------------
-Required to register on IRC
