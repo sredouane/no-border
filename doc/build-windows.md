@@ -84,6 +84,12 @@ Then build using:
     cd depends
     make HOST=x86_64-w64-mingw32
     cd ..
+    sudo apt install dos2unix
+    dos2unix Makefile.am
+    find . -name \*.m4|xargs dos2unix
+    find . -name \*.ac|xargs dos2unix
+    find . -name \*.am|xargs dos2unix
+    find . -name \*.site|xargs dos2unix
     ./autogen.sh # not required when building from tarball
     CONFIG_SITE=$PWD/depends/x86_64-w64-mingw32/share/config.site ./configure --prefix=/
     make
