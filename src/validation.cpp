@@ -1303,7 +1303,7 @@ bool ReadBlockFromDisk(CBlock& block, const CDiskBlockPos& pos, const Consensus:
     }
 
     // Check the header
-		std::cout << "checking  proof of work ReadBlockFromDisk"<<"\n";
+		std::cout << "checking  proof of work ReadBlockFromDisk with version "<<block.nVersion<< "\n";
 
     if (!CheckProofOfWork(block.GetHash(), block.nBits, consensusParams))
         return error("ReadBlockFromDisk: Errors in block header at %s", pos.ToString());

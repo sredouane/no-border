@@ -182,9 +182,9 @@ public:
         nDefaultPort = 10467;
         nPruneAfterHeight = 100000;
 		
-		
+		/*
 		uint32_t nGenesisTime = 1636829063;  // Saturday, November 13, 2021 6:44:23 PM
-		/*bool found = false;
+		bool found = false;
 		        uint256 TempHashHolding = uint256S("0x0000000000000000000000000000000000000000000000000000000000000000");
        uint256 BestBlockHash = uint256S("0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff");
 		while(found == false){
@@ -199,7 +199,7 @@ public:
         uint256 TempHashHolding = uint256S("0x0000000000000000000000000000000000000000000000000000000000000000");
        uint256 BestBlockHash = uint256S("0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff");
         for (int i=0;i<40000000;i++) {
-            genesis = CreateGenesisBlock(nGenesisTime, i, 0x1e00ffff, 503382015,10 * COIN);
+            genesis = CreateGenesisBlock(nGenesisTime, i, 0x1e00ffff, 4,10 * COIN);
             //genesis.hashPrevBlock = TempHashHolding;
             // Depending on when the timestamp is on the genesis block. You will need to use GetX16RHash or GetX16RV2Hash. Replace GetHash() with these below
             consensus.hashGenesisBlock = genesis.GetHash();
@@ -232,11 +232,11 @@ public:
         std::cout << "\n";
         int totalHits = 0;
         double totalTime = 0.0;
+		
+		
 		*/
-		
-		
 		//503382015
-        genesis = CreateGenesisBlock(1636829064, 8723696, 0x1e00ffff, 503382015,10 * COIN);
+        genesis = CreateGenesisBlock(1636829064, 2271184, 0x1e00ffff, 4,10 * COIN);
 
         consensus.hashGenesisBlock = genesis.GetHash();
 		std::cout << genesis.GetX16RHash().ToString().c_str()<<"\n";
@@ -248,7 +248,7 @@ public:
 		std::cout << consensus.hashGenesisBlock.ToString().c_str();
 		std::cout << "\n";
 		std::cout << genesis.hashMerkleRoot.ToString().c_str();
-        assert(consensus.hashGenesisBlock == uint256S("000000b5b8adfa887b9754bfb31f3181b8435ac8d50a126cc71a4ef04df0efe8"));
+        assert(consensus.hashGenesisBlock == uint256S("000000f586dbe37ce17432349090200a21225badf85587166c6817a1f3733f2d"));
         assert(genesis.hashMerkleRoot == uint256S("ae067820069a50a8308382804faea2acd7e5be5c93ce4085d1cc9c6d311997a3"));
 
         //vSeeds.emplace_back("seed-raven.bitactivate.com", false);
