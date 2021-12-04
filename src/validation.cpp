@@ -1352,14 +1352,14 @@ bool IsInitialBlockDownload()
     }
     if (chainActive.Tip() == nullptr)
     {
-//        LogPrintf("IsInitialBlockDownload (tip is null)");
+	std::cout<<"IsInitialBlockDownload (tip is null)" <<std::endl;
         return true;
     }
     if (chainActive.Tip()->nChainWork < nMinimumChainWork)
     {
-//    		LogPrintf("IsInitialBlockDownload (min chain work)");
-//    		LogPrintf("Work found: %s", chainActive.Tip()->nChainWork.GetHex());
-//    		LogPrintf("Work needed: %s", nMinimumChainWork.GetHex());
+    		std::cout<<"IsInitialBlockDownload (min chain work)"<<std::endl;
+    		std::cout<<"Work found:  "<< chainActive.Tip()->nChainWork.GetHex()<<std::endl;
+    		std::cout<<"Work needed:  "<< nMinimumChainWork.GetHex() << std::endl;
         return true;
     }
     if (chainActive.Tip()->GetBlockTime() < (GetTime() - nMaxTipAge))
@@ -3578,6 +3578,7 @@ bool ActivateBestChain(CValidationState &state, const CChainParams& chainparams,
     // us in the middle of ProcessNewBlock - do not assume pblock is set
     // sanely for performance or correctness!
 
+	std::cout << "activat best chain entry point" <<std::endl;
     CBlockIndex *pindexMostWork = nullptr;
     CBlockIndex *pindexNewTip = nullptr;
     int nStopAtHeight = gArgs.GetArg("-stopatheight", DEFAULT_STOPATHEIGHT);
@@ -4390,7 +4391,11 @@ static bool AcceptBlock(const std::shared_ptr<const CBlock>& pblock, CValidation
         // If our tip is behind, a peer could try to send us
         // low-work blocks on a fake chain that we would never
         // request; don't process these.
-        if (pindex->nChainWork < nMinimumChainWork) return true;
+        if (pindex->nChainWork < nMinimumChainWork) {
+			std::cout <<"no minimum work met return true"<<std::endl;
+			return true;
+			
+		}
     }
 
     if (fNewBlock) *fNewBlock = true;
