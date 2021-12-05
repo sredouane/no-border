@@ -17,10 +17,22 @@ the usage of the absolute path.
 To Build
 ---------------------
 
+download Berkeley DB db-4.8.30.NC
+make the following changes to dbinc/atomic.h
+
+Line 147, replace __atomic_compare_exchange((p), (o), (n)) with __atomic_compare_exchange_db((p), (o), (n))
+
+Line 179, replace static inline int __atomic_compare_exchange( with static inline int __atomic_compare_exchange_db(
+
+cd build_unix/
+
+../dist/configure --disable-shared --enable-stl --enable-cxx  --disable-replication --with-pic --prefix="/SomeWhere"
+
 ```bash
 ./autogen.sh
-./configure
-make
+./configure  BDB_LIBS="-L/SomeWhere/bdb/lib -ldb_cxx-4.8" BDB_CFLAGS="-I/SomeWhere/bdb/include" --prefix=/SomeWhereElse
+
+make -j 10
 make install # optional
 ```
 
