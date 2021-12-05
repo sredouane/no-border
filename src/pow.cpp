@@ -200,6 +200,6 @@ bool CheckProofOfWork(uint256 hash, unsigned int nBits, const Consensus::Params&
 		std::cout << "\n invalid proof of work 2 "<<ArithToUint256(bnTarget).ToString().c_str();
         return false;
 	}
-
+	std::cout << "\n valid poof of work "<<hash.ToString().c_str()<<std::endl;
     return true;
 }

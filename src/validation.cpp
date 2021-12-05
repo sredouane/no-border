@@ -1303,7 +1303,6 @@ bool ReadBlockFromDisk(CBlock& block, const CDiskBlockPos& pos, const Consensus:
     }
 
     // Check the header
-		std::cout << "checking  proof of work ReadBlockFromDisk with version "<<block.nVersion<< "\n";
 
     if (!CheckProofOfWork(block.GetHash(), block.nBits, consensusParams))
         return error("ReadBlockFromDisk: Errors in block header at %s", pos.ToString());
@@ -3942,12 +3941,9 @@ static bool FindUndoPos(CValidationState &state, int nFile, CDiskBlockPos &pos, 
 static bool CheckBlockHeader(const CBlockHeader& block, CValidationState& state, const Consensus::Params& consensusParams, bool fCheckPOW = true)
 {
     // If we are checking a KAWPOW block below a know checkpoint height. We can validate the proof of work using the mix_hash
-	std::cout << "checking  proof of work CheckBlockHeader 1"<<"\n";
     if (fCheckPOW && block.nTime >= nKAWPOWActivationTime) {
-		std::cout << "first if "<<"\n"<<fCheckPOW <<" "<<block.nTime<< " " << nKAWPOWActivationTime;
         CBlockIndex* pcheckpoint = Checkpoints::GetLastCheckpoint(GetParams().Checkpoints());
         if (fCheckPOW && pcheckpoint && block.nHeight <= (uint32_t)pcheckpoint->nHeight) {
-			 std::cout << "first if with checkpoint"<<"\n"<<fCheckPOW <<" "<<block.nTime<< " " << nKAWPOWActivationTime;
 
            if (!CheckProofOfWork(block.GetHash(), block.nBits, consensusParams)) {
 			   	 std::cout << " failed here 0"<<"\n"<<fCheckPOW;
