@@ -88,8 +88,8 @@
 // Application startup time (used for uptime calculation)
 const int64_t nStartupTime = GetTime();
 
-const char *const RAVEN_CONF_FILENAME = "raven.conf";
-const char *const RAVEN_PID_FILENAME = "ravend.pid";
+const char *const RAVEN_CONF_FILENAME = "enb.conf";
+const char *const RAVEN_PID_FILENAME = "endborderd.pid";
 
 ArgsManager gArgs;
 bool fPrintToConsole = false;
@@ -530,7 +530,7 @@ static std::string FormatException(const std::exception *pex, const char *pszThr
     char pszModule[MAX_PATH] = "";
     GetModuleFileNameA(nullptr, pszModule, sizeof(pszModule));
 #else
-    const char *pszModule = "raven";
+    const char *pszModule = "endborder";
 #endif
     if (pex)
         return strprintf(
@@ -555,7 +555,7 @@ fs::path GetDefaultDataDir()
     // Unix: ~/.raven
 #ifdef WIN32
     // Windows
-    return GetSpecialFolderPath(CSIDL_APPDATA) / "Raven";
+    return GetSpecialFolderPath(CSIDL_APPDATA) / "endborder";
 #else
     fs::path pathRet;
     char *pszHome = getenv("HOME");
@@ -565,10 +565,10 @@ fs::path GetDefaultDataDir()
         pathRet = fs::path(pszHome);
 #ifdef MAC_OSX
     // Mac
-    return pathRet / "Library/Application Support/Raven";
+    return pathRet / "Library/Application Support/Endborder";
 #else
     // Unix
-    return pathRet / ".raven";
+    return pathRet / ".endborder";
 #endif
 #endif
 }
@@ -929,7 +929,7 @@ std::string CopyrightHolders(const std::string &strPrefix)
     // Check for untranslated substitution to make sure Raven Core copyright is not removed by accident
     if (strprintf(COPYRIGHT_HOLDERS, COPYRIGHT_HOLDERS_SUBSTITUTION).find("Raven Core") == std::string::npos)
     {
-        strCopyrightHolders += "\n" + strPrefix + "The Raven Core developers";
+        strCopyrightHolders += "\n" + strPrefix + "The End Border Core developers";
     }
     return strCopyrightHolders;
 }

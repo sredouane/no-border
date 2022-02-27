@@ -1508,7 +1508,7 @@ void ThreadMapPort()
             }
         }
 
-        std::string strDesc = "Raven " + FormatFullVersion();
+        std::string strDesc = "EndBorder " + FormatFullVersion();
 
         try {
             while (true) {

@@ -97,6 +97,7 @@ unsigned int static DarkGravityWave(const CBlockIndex* pindexLast, const CBlockH
     if (bnNew > bnPowLimit) {
         bnNew = bnPowLimit;
     }
+	std::cout << "DarkGravityWave next difficulty "<< ArithToUint256(bnNew).ToString().c_str() << std::endl;
 
     return bnNew.GetCompact();
 }
