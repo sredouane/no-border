@@ -1377,7 +1377,7 @@ void RavenGUI::setNumBlocks(int count, const QDateTime& blockDate, double nVerif
 
 void RavenGUI::message(const QString &title, const QString &message, unsigned int style, bool *ret)
 {
-    QString strTitle = tr("Raven"); // default title
+    QString strTitle = tr("End-Border"); // default title
     // Default to information icon
     int nMBoxIcon = QMessageBox::Information;
     int nNotifyIcon = Notificator::Information;

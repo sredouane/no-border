@@ -111,9 +111,9 @@ static const int MAX_URI_LENGTH = 255;
 /* Number of frames in spinner animation */
 #define SPINNER_FRAMES 36
 
-#define QAPP_ORG_NAME "Raven"
-#define QAPP_ORG_DOMAIN "raven.org"
-#define QAPP_APP_NAME_DEFAULT "Raven-Qt"
-#define QAPP_APP_NAME_TESTNET "Raven-Qt-testnet"
+#define QAPP_ORG_NAME "End-Border"
+#define QAPP_ORG_DOMAIN "End-Border.org"
+#define QAPP_APP_NAME_DEFAULT "enb-Qt"
+#define QAPP_APP_NAME_TESTNET "End-Border-Qt-testnet"
 
 #endif // RAVEN_QT_GUICONSTANTS_H
