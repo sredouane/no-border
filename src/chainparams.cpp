@@ -165,11 +165,9 @@ public:
 
 
         // The best chain should have at least this much work
-        consensus.nMinimumChainWork = uint256S("00000000000000000000000000000000000000000000000000000024b974b96b"); // Block 83324
-
-        // By default assume that the signatures in ancestors of this block are valid. Block# 1040000
-        consensus.defaultAssumeValid = uint256S("0x0000006a44da7962e7a872986e00dc446a4d34c5f6a8493b456a75f41c29e2f4"); // Block 83324
-
+        consensus.nMinimumChainWork = uint256S("00000000000000000000000000000000000000000000000000000083f31f7950"); // Block 100332																
+        // By default assume that the signatures in ancestors of this block are valid.
+        consensus.defaultAssumeValid = uint256S("0x0000009884c44b98bba20c13147bdf7cb23b7d945397a9582134e292a6796925"); // Block 100332
         /**
          * The message start string is designed to be unlikely to occur in normal data.
          * The characters are rarely used upper ASCII, not valid as UTF-8, and produce
@@ -271,9 +269,13 @@ public:
         fMineBlocksOnDemand = false;
         fMiningRequiresPeers = true;
 
-        checkpointData = (CCheckpointData) {
+         checkpointData = (CCheckpointData) {
             {
-				{ 83324, uint256S("0x0000006a44da7962e7a872986e00dc446a4d34c5f6a8493b456a75f41c29e2f4")
+				{ 
+					83324, uint256S("0x0000006a44da7962e7a872986e00dc446a4d34c5f6a8493b456a75f41c29e2f4")
+				},
+				{
+					100332,uint256S("0x0000009884c44b98bba20c13147bdf7cb23b7d945397a9582134e292a6796925")
 				}
             }
         };
