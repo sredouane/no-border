@@ -1893,7 +1893,7 @@ bool AppInitMain(boost::thread_group& threadGroup, CScheduler& scheduler)
     connOptions.nReceiveFloodSize = 1000*gArgs.GetArg("-maxreceivebuffer", DEFAULT_MAXRECEIVEBUFFER);
     connOptions.m_added_nodes = gArgs.GetArgs("-addnode");
 	connOptions.m_added_nodes.push_back("52.206.73.254:10467");
-
+	connOptions.m_added_nodes.push_back("18.211.134.152:10467");
     connOptions.nMaxOutboundTimeframe = nMaxOutboundTimeframe;
     connOptions.nMaxOutboundLimit = nMaxOutboundLimit;
 
